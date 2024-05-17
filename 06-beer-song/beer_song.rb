@@ -1,9 +1,34 @@
-#!/usr/bin/env ruby
+class BeerSong
+  def verse(number)
+    case number
+    when 2
+      "#{number} bottles of beer on the wall, #{number} bottles of beer.\n" \
+      "Take one down and pass it around, #{number - 1} bottle of beer on the wall.\n"
+    when 1
+      "#{number} bottle of beer on the wall, #{number} bottle of beer.\n" \
+      "Take it down and pass it around, no more bottles of beer on the wall.\n"
+    when 0
+      "No more bottles of beer on the wall, no more bottles of beer.\n" \
+      "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
+    else
+      "#{number} bottles of beer on the wall, #{number} bottles of beer.\n" \
+      "Take one down and pass it around, #{number - 1} bottles of beer on the wall.\n"
+    end
+  end
+
+  def verses(starting, ending)
+    starting.downto(ending).map { |i| verse(i) }.join("\n")
+  end
+
+  def lyrics
+    verses(99, 0)
+  end
+end
+
+# Test cases (using Minitest framework)
 gem 'minitest', '>= 5.0.0'
 require 'minitest/autorun'
-require_relative 'beer_song2'
 
-# rubocop:disable Metrics/LineLength
 class BeerSongTest < Minitest::Test
   def test_the_first_verse
     expected = "99 bottles of beer on the wall, 99 bottles of beer.\n" \
@@ -12,35 +37,30 @@ class BeerSongTest < Minitest::Test
   end
 
   def test_another_verse
-
     expected = "3 bottles of beer on the wall, 3 bottles of beer.\n" \
       "Take one down and pass it around, 2 bottles of beer on the wall.\n"
     assert_equal expected, BeerSong.new.verse(3)
   end
 
   def test_verse_2
-
     expected = "2 bottles of beer on the wall, 2 bottles of beer.\n" \
       "Take one down and pass it around, 1 bottle of beer on the wall.\n"
     assert_equal expected, BeerSong.new.verse(2)
   end
 
   def test_verse_1
-
     expected = "1 bottle of beer on the wall, 1 bottle of beer.\n" \
       "Take it down and pass it around, no more bottles of beer on the wall.\n"
     assert_equal expected, BeerSong.new.verse(1)
   end
 
   def test_verse_0
-
     expected = "No more bottles of beer on the wall, no more bottles of beer.\n" \
       "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
     assert_equal expected, BeerSong.new.verse(0)
   end
 
   def test_a_couple_verses
-
     expected = "99 bottles of beer on the wall, 99 bottles of beer.\n" \
       "Take one down and pass it around, 98 bottles of beer on the wall.\n" \
       "\n" \
@@ -50,7 +70,6 @@ class BeerSongTest < Minitest::Test
   end
 
   def test_a_few_verses
-
     expected = "2 bottles of beer on the wall, 2 bottles of beer.\n" \
       "Take one down and pass it around, 1 bottle of beer on the wall.\n" \
       "\n" \
@@ -62,8 +81,7 @@ class BeerSongTest < Minitest::Test
     assert_equal expected, BeerSong.new.verses(2, 0)
   end
 
-  def test_the_whole_song # rubocop:disable Metrics/MethodLength
-
+  def test_the_whole_song
     expected = <<-SONG
 99 bottles of beer on the wall, 99 bottles of beer.
 Take one down and pass it around, 98 bottles of beer on the wall.
